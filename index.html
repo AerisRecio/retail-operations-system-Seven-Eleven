@@ -4,582 +4,962 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="theme-color" content="#08764b">
   <title>Retail Operations Management System</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --green: #08764b;
+      --dark-green: #075b3b;
+      --light-green: #e9f5ee;
+      --orange: #f58220;
+      --red: #e31b35;
+      --ink: #202a33;
+      --muted: #6b7780;
+      --border: #e0e6e3;
+      --bg: #f3f6f4;
+      --white: #ffffff;
+      --shadow: 0 5px 20px rgba(24, 50, 35, .05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    /* TOP BANNER */
+
+    .brand-banner {
+      height: 55px;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* HEADER */
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .logo {
+      width: 49px;
+      height: 45px;
+      border: 2px solid var(--green);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      line-height: 1;
+      background: white;
+    }
+
+    .logo strong {
+      font-size: 24px;
+      color: var(--red);
+      font-weight: 900;
+    }
+
+    .logo span {
+      font-size: 8px;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .brand-text strong,
+    .brand-text small {
+      display: block;
+    }
+
+    .brand-text strong {
+      font-size: 15px;
+    }
+
+    .brand-text small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .header-label {
+      color: var(--green);
+      background: var(--light-green);
+      padding: 7px 11px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    /* PAGE LAYOUT */
+
+    .container {
+      width: min(1280px, 100%);
+      padding: 30px 4% 45px;
+      margin: auto;
+    }
+
+    .page-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 23px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      margin-bottom: 7px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(23px, 3vw, 30px);
+      line-height: 1.25;
+      letter-spacing: -.8px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 21px;
+      margin-bottom: 9px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 9px;
+    }
+
+    .description,
+    .subtitle {
+      color: var(--muted);
+    }
+
+    .subtitle {
+      margin: 0;
+    }
+
+    .navigation {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 6px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 23px;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-button {
+      background: transparent;
+      border: none;
+      color: #59665f;
+      border-radius: 5px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav-button:hover {
+      color: var(--green);
+      background: var(--light-green);
+    }
+
+    .nav-button.active {
+      background: var(--green);
+      color: white;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: appear .25s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* CARDS */
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 17px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+      transition: box-shadow .2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 9px 26px rgba(24, 50, 35, .08);
+    }
+
+    .hero {
+      padding: 28px;
+      background: linear-gradient(110deg, white, #f0f8f3);
+      border: 1px solid #dce9df;
+      border-radius: 9px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero p:last-child {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .hero-mark {
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      color: white;
+      background: var(--green);
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 6px 6px 0 #f5822025;
+    }
+
+    .dashboard-grid,
+    .payment-grid,
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .metric {
+      margin: 0;
+    }
+
+    .metric-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--light-green);
+      color: var(--green);
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 17px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .kpi {
+      font-size: 27px;
+      letter-spacing: -.7px;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .good {
+      color: #18764a;
+      background: #e8f6ed;
+    }
+
+    .warning {
+      color: #986018;
+      background: #fff3df;
+    }
+
+    .neutral {
+      color: #526574;
+      background: #edf2f5;
+    }
+
+    .danger {
+      color: #a72c3b;
+      background: #fdebed;
+    }
+
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 15px 0 3px;
+    }
+
+    .flow-step {
+      min-width: 135px;
+      flex: 1;
+      background: #f8faf8;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .flow-step small {
+      color: var(--orange);
+      font-weight: 900;
+    }
+
+    .flow-step strong,
+    .flow-step span {
+      display: block;
+    }
+
+    .flow-step strong {
+      margin: 5px 0;
+    }
+
+    .flow-step span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .flow-arrow {
+      align-self: center;
+      color: #9aa69e;
+      font-size: 19px;
+    }
+
+    .notice {
+      padding: 14px 17px;
+      border: 1px solid #f1dfc6;
+      border-radius: 6px;
+      background: #fffaf3;
+      color: #765b38;
+      font-size: 12px;
+    }
+
+    /* FORMS */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      color: #46534c;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid #d3ddd6;
+      border-radius: 5px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px #08764b18;
+    }
+
+    .primary-button,
+    .small-button {
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 750;
+    }
+
+    .primary-button {
+      padding: 11px 16px;
+      font-size: 12px;
+    }
+
+    .primary-button:hover,
+    .small-button:hover {
+      background: var(--dark-green);
+      transform: translateY(-1px);
+    }
+
+    .small-button {
+      padding: 7px 10px;
+      font-size: 11px;
+    }
+
+    .secondary-button {
+      color: #425249;
+      background: #edf3ef;
+    }
+
+    .secondary-button:hover {
+      color: white;
+    }
+
+    .feedback {
+      margin: 12px 0 0;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .feedback:empty {
+      display: none;
+    }
+
+    .feedback.success {
+      color: var(--green);
+    }
+
+    .feedback.error {
+      color: #b42332;
+    }
+
+    /* TABLES */
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 12px;
+      background: white;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 11px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    th {
+      color: #637068;
+      background: #f5f8f6;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: #f7fbf8;
+    }
+
+    .total-box {
+      margin-top: 18px;
+      padding: 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      border-radius: 6px;
+      background: #f1f8f3;
+      border: 1px solid #dce9df;
+    }
+
+    .total-box strong {
+      font-size: 22px;
+      color: var(--dark-green);
+    }
+
+    .payment-information {
+      margin: 18px 0;
+    }
+
+    .payment-information p {
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .payment-information strong {
+      font-size: 23px;
+    }
+
+    .stock-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .stock-actions button {
+      min-width: 29px;
+      padding: 5px;
+    }
+
+    .information p {
+      padding: 15px 0;
+      margin: 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: minmax(140px, .4fr) 1fr;
+      gap: 18px;
+    }
+
+    .information p:last-child {
+      border-bottom: none;
+    }
+
+    .information span {
+      color: var(--muted);
+    }
+
+    .module-index {
+      color: var(--orange);
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .module-grid .card {
+      margin: 0;
+    }
+
+    .module-grid p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .list {
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding-top: 24px;
+      color: #87918b;
+      font-size: 10px;
+    }
+
+    @media (max-width: 900px) {
+
+      .dashboard-grid,
+      .payment-grid,
+      .module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .navigation {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+
+      .nav-button {
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 13px 16px;
+      }
+
+      .header-label {
+        display: none;
+      }
+
+      .container {
+        padding: 22px 15px 35px;
+      }
+
+      .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding: 21px;
+      }
+
+      .hero-mark {
+        width: 52px;
+        height: 52px;
+        font-size: 19px;
+      }
+
+      .dashboard-grid,
+      .payment-grid,
+      .module-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .information p {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- Uploaded banner image: keep images.png beside index.html -->
+  <div class="brand-banner">
+    <img src="images.png" alt="7-Eleven banner" onerror="this.style.display='none'">
+  </div>
+
   <header>
-    <div>
-      <h1>Retail Operations Management System</h1>
-      <p>Academic information system for procurement, sales, payments, and inventory</p>
+    <div class="brand" id="homeButton">
+      <div class="logo">
+        <strong>7</strong>
+        <span>ELEVEN</span>
+      </div>
+      <div class="brand-text">
+        <strong>Retail Operations</strong>
+        <small>Management System</small>
+      </div>
     </div>
-
-    <div class="system-label">
-      OPERATIONS
-    </div>
+    <div class="header-label">ACADEMIC SYSTEM PROTOTYPE</div>
   </header>
-
 
   <main class="container">
 
-    <!-- NAVIGATION -->
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">PHILIPPINE SEVEN CORPORATION</p>
+        <h1>Retail Operations Management System</h1>
+        <p class="subtitle">A centralized workspace for retail business operations.</p>
+      </div>
+      <span class="status good">SYSTEM READY</span>
+    </div>
 
     <nav class="navigation">
-
-      <button class="nav-button active" onclick="showSection('dashboard', this)">
-        Dashboard
-      </button>
-
-      <button class="nav-button" onclick="showSection('profile', this)">
-        Company Profile
-      </button>
-
-      <button class="nav-button" onclick="showSection('hardware', this)">
-        Operating System Platforms
-      </button>
-
-      <button class="nav-button" onclick="showSection('supplier-order', this)">
-        Ordering to Supplier
-      </button>
-
-      <button class="nav-button" onclick="showSection('supplier-payment', this)">
-        Payment to Supplier
-      </button>
-
-      <button class="nav-button" onclick="showSection('sales', this)">
-        Sales from Customer
-      </button>
-
-      <button class="nav-button" onclick="showSection('customer-payment', this)">
-        Payment from Customer
-      </button>
-
-      <button class="nav-button" onclick="showSection('inventory', this)">
-        Inventory
-      </button>
-
-      <button class="nav-button" onclick="showSection('web-design', this)">
-        Website & Information System
-      </button>
-
+      <button class="nav-button active" data-section="dashboard">Dashboard</button>
+      <button class="nav-button" data-section="profile">Company Profile</button>
+      <button class="nav-button" data-section="hardware">OS Platforms</button>
+      <button class="nav-button" data-section="orders">Ordering to Supplier</button>
+      <button class="nav-button" data-section="supplierPayments">Payment to Supplier</button>
+      <button class="nav-button" data-section="sales">Sales from Customer</button>
+      <button class="nav-button" data-section="payments">Payment from Customer</button>
+      <button class="nav-button" data-section="inventory">Inventory</button>
+      <button class="nav-button" data-section="overview">System Overview</button>
     </nav>
 
-
     <!-- DASHBOARD -->
-
     <section id="dashboard" class="section active">
-
       <div class="hero">
-        <h2>Integrated Retail Operations Dashboard</h2>
-
-        <p>
-          A centralized web information system connecting purchasing,
-          supplier payments, customer sales, customer payments,
-          and inventory monitoring.
-        </p>
+        <div>
+          <p class="eyebrow">OPERATIONS OVERVIEW</p>
+          <h2>Integrated Retail Dashboard</h2>
+          <p>Monitor procurement, supplier payments, customer transactions, and stock levels in one workspace.</p>
+        </div>
+        <div class="hero-mark">711+</div>
       </div>
-
 
       <div class="dashboard-grid">
+        <article class="card metric">
+          <div class="metric-icon">₱</div>
+          <p class="metric-label">Today's Sales</p>
+          <h2 class="kpi" id="salesKpi">₱128,450.00</h2>
+          <span class="status good">Sample sales data</span>
+        </article>
 
-        <div class="card">
-          <p class="card-label">Today's Sales</p>
+        <article class="card metric">
+          <div class="metric-icon">!</div>
+          <p class="metric-label">Low Stock Alerts</p>
+          <h2 class="kpi" id="lowStockKpi">2</h2>
+          <span class="status warning">Needs replenishment</span>
+        </article>
 
-          <h2 class="kpi">
-            ₱128,450
-          </h2>
-
-          <span class="status">
-            +8.4% vs. yesterday
-          </span>
-        </div>
-
-
-        <div class="card">
-          <p class="card-label">Low Stock Alerts</p>
-
-          <h2 class="kpi">
-            18
-          </h2>
-
-          <span class="status">
-            Needs replenishment
-          </span>
-        </div>
-
-
-        <div class="card">
-          <p class="card-label">Pending Supplier Orders</p>
-
-          <h2 class="kpi">
-            7
-          </h2>
-
-          <span class="status">
-            3 for approval
-          </span>
-        </div>
-
+        <article class="card metric">
+          <div class="metric-icon">↗</div>
+          <p class="metric-label">Pending Supplier Orders</p>
+          <h2 class="kpi" id="pendingKpi">1</h2>
+          <span class="status neutral">Awaiting approval</span>
+        </article>
       </div>
 
-
-      <div class="card transaction-card">
-
-        <h3>Transaction Flow</h3>
-
-        <div class="transaction-flow">
-
-          <div class="flow-step">
-            <strong>Supplier</strong>
-            <span>Purchase request</span>
-          </div>
-
-          <div class="arrow">→</div>
-
-          <div class="flow-step">
-            <strong>Procurement</strong>
-            <span>Order & approval</span>
-          </div>
-
-          <div class="arrow">→</div>
-
-          <div class="flow-step">
-            <strong>Warehouse</strong>
-            <span>Receive & stock</span>
-          </div>
-
-          <div class="arrow">→</div>
-
-          <div class="flow-step">
-            <strong>Store POS</strong>
-            <span>Sell products</span>
-          </div>
-
-          <div class="arrow">→</div>
-
-          <div class="flow-step">
-            <strong>Payment</strong>
-            <span>Cash / E-wallet / Card</span>
-          </div>
-
+      <article class="card">
+        <p class="eyebrow">BUSINESS PROCESS</p>
+        <h3>From supplier to customer</h3>
+        <div class="flow">
+          <div class="flow-step"><small>01</small><strong>Supplier</strong><span>Purchase request</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><small>02</small><strong>Procurement</strong><span>Order and approval</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><small>03</small><strong>Inventory</strong><span>Receive and stock</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><small>04</small><strong>Store POS</strong><span>Record sales</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><small>05</small><strong>Payment</strong><span>Cash, wallet, or card</span></div>
         </div>
+      </article>
 
+      <div class="notice">
+        <strong>Prototype notice:</strong>
+        This academic demonstration is not connected to actual 7-Eleven systems or financial services.
       </div>
-
     </section>
-
 
     <!-- COMPANY PROFILE -->
-
     <section id="profile" class="section">
-
-      <div class="card">
-
+      <article class="card">
+        <p class="eyebrow">ABOUT THE BUSINESS</p>
         <h2>Company Profile</h2>
-
         <div class="information">
-
-          <p>
-            <strong>Company:</strong>
-            Philippine Seven Corporation
+          <p><strong>Company</strong><span>Philippine Seven Corporation</span></p>
+          <p><strong>Nature of Business</strong><span>Convenience-store retailing and related convenience
+              services.</span></p>
+          <p><strong>Products and Services</strong><span>Food and beverages, ready-to-eat meals, snacks, household
+              products, promotions, loyalty services, bills payment, loading, e-money, and e-commerce services.</span>
           </p>
-
-          <p>
-            <strong>Nature of Business:</strong>
-            Convenience-store retailing and related convenience services.
-          </p>
-
-          <p>
-            <strong>Products and Services:</strong>
-            Food and beverages, ready-to-eat meals, snacks,
-            household and consumer products, promotions,
-            loyalty services, bills payment, loading and
-            e-money services, and e-commerce services.
-          </p>
-
-          <p>
-            <strong>Technology Role:</strong>
-            Digital platforms support customer transactions,
-            payment services, loyalty programs, e-commerce,
-            procurement, sales, and store operations.
-          </p>
-
+          <p><strong>Role of Technology</strong><span>Digital platforms support customer transactions, procurement,
+              sales, inventory, and store operations.</span></p>
         </div>
-
-      </div>
-
+      </article>
     </section>
 
-
-    <!-- OPERATING SYSTEM PLATFORMS -->
-
+    <!-- OPERATING SYSTEMS -->
     <section id="hardware" class="section">
-
-      <div class="card">
-
+      <article class="card">
+        <p class="eyebrow">IT INFRASTRUCTURE</p>
         <h2>Operating System Platforms</h2>
-
-        <p class="description">
-          Proposed hardware and operating system requirements
-          for the business information system.
-        </p>
-
-
+        <p class="description">Proposed hardware and operating system requirements for each business operation.</p>
         <div class="table-container">
-
           <table>
-
             <thead>
-
               <tr>
                 <th>Operation</th>
-                <th>Hardware Requirements</th>
+                <th>Hardware</th>
                 <th>Detailed Specification</th>
                 <th>Quantity</th>
                 <th>Operating System</th>
                 <th>OS Details</th>
               </tr>
-
             </thead>
-
             <tbody>
-
               <tr>
-
-                <td>
-                  Ordering to Supplier
-                </td>
-
-                <td>
-                  Procurement Workstation
-                </td>
-
-                <td>
-                  Intel Core i5 / Ryzen 5,
-                  16GB RAM, 512GB NVMe SSD,
-                  23.8" FHD display,
-                  Gigabit Ethernet / Wi-Fi 6
-                </td>
-
-                <td>
-                  1 per workstation
-                </td>
-
-                <td>
-                  Windows 11 Pro
-                </td>
-
-                <td>
-                  64-bit business operating system
-                  supporting browser-based ERP and
-                  procurement applications.
-                </td>
-
+                <td>Ordering to Supplier</td>
+                <td>Procurement workstation</td>
+                <td>Intel Core i5 / Ryzen 5, 16 GB RAM, 512 GB NVMe SSD, 23.8-inch FHD display, Gigabit Ethernet / Wi-Fi
+                  6</td>
+                <td>1 per workstation</td>
+                <td>Windows 11 Pro</td>
+                <td>64-bit business OS for browser-based procurement applications.</td>
               </tr>
-
-
               <tr>
-
-                <td>
-                  Payment to Supplier
-                </td>
-
-                <td>
-                  Finance Workstation
-                </td>
-
-                <td>
-                  Core i5 / Ryzen 5,
-                  16GB RAM, 512GB SSD,
-                  dual-monitor capable,
-                  Gigabit Ethernet
-                </td>
-
-                <td>
-                  1 per user
-                </td>
-
-                <td>
-                  Windows 11 Pro
-                </td>
-
-                <td>
-                  Supports accounting applications,
-                  payment systems, secure browsers,
-                  and office productivity software.
-                </td>
-
+                <td>Payment to Supplier</td>
+                <td>Finance workstation</td>
+                <td>Core i5 / Ryzen 5, 16 GB RAM, 512 GB SSD, dual-monitor capable, Gigabit Ethernet</td>
+                <td>1 per user</td>
+                <td>Windows 11 Pro</td>
+                <td>Supports accounting apps, secure browsers, and office software.</td>
               </tr>
-
-
               <tr>
-
-                <td>
-                  Sales from Customer
-                </td>
-
-                <td>
-                  POS Terminal and Barcode Scanner
-                </td>
-
-                <td>
-                  15" touchscreen,
-                  8GB RAM, 128GB SSD,
-                  2D barcode scanner,
-                  receipt printer,
-                  cash drawer
-                </td>
-
-                <td>
-                  1 per checkout lane
-                </td>
-
-                <td>
-                  Windows 11 IoT Enterprise
-                </td>
-
-                <td>
-                  Retail-oriented operating system
-                  for POS applications and
-                  connected peripherals.
-                </td>
-
+                <td>Sales from Customer</td>
+                <td>POS terminal and scanner</td>
+                <td>15-inch touchscreen, 8 GB RAM, 128 GB SSD, 2D scanner, receipt printer, cash drawer</td>
+                <td>1 per lane</td>
+                <td>Windows 11 IoT Enterprise</td>
+                <td>Retail OS for POS applications and connected peripherals.</td>
               </tr>
-
-
               <tr>
-
-                <td>
-                  Payment from Customer
-                </td>
-
-                <td>
-                  Payment Terminal
-                </td>
-
-                <td>
-                  EMV/NFC reader,
-                  secure PIN entry,
-                  Ethernet/Wi-Fi,
-                  receipt support
-                </td>
-
-                <td>
-                  1 per lane
-                </td>
-
-                <td>
-                  Embedded Payment OS
-                </td>
-
-                <td>
-                  Vendor-managed secure operating
-                  environment for payment processing.
-                </td>
-
+                <td>Payment from Customer</td>
+                <td>Payment terminal</td>
+                <td>EMV/NFC reader, secure PIN entry, Ethernet/Wi-Fi, receipt support</td>
+                <td>1 per lane</td>
+                <td>Vendor-managed embedded OS</td>
+                <td>Secure vendor-managed payment environment.</td>
               </tr>
-
-
               <tr>
-
-                <td>
-                  Inventory
+                <td>Inventory</td>
+                <td>Inventory handheld</td>
+                <td>Rugged Android device, 4 GB RAM, 64 GB storage, integrated 2D scanner, Wi-Fi 6, 5,000 mAh battery
                 </td>
-
-                <td>
-                  Inventory Handheld
-                </td>
-
-                <td>
-                  Rugged Android device,
-                  4GB RAM, 64GB storage,
-                  integrated 2D scanner,
-                  Wi-Fi 6,
-                  5,000mAh battery
-                </td>
-
-                <td>
-                  2 per store
-                </td>
-
-                <td>
-                  Android Enterprise
-                </td>
-
-                <td>
-                  Managed mobile operating system
-                  for inventory applications,
-                  barcode scanning, and device management.
-                </td>
-
+                <td>2 per store</td>
+                <td>Android Enterprise</td>
+                <td>Managed mobile OS for stock applications and scanning.</td>
               </tr>
-
             </tbody>
-
           </table>
-
         </div>
-
-      </div>
-
+      </article>
     </section>
 
-
     <!-- ORDERING TO SUPPLIER -->
-
-    <section id="supplier-order" class="section">
-
-      <div class="card">
-
+    <section id="orders" class="section">
+      <article class="card">
+        <p class="eyebrow">EXPENDITURE CYCLE</p>
         <h2>Ordering to Supplier</h2>
+        <p class="description">Enter purchase order details. Submitted orders will appear in the Recent Orders list.</p>
 
-        <p class="description">
-          Procurement personnel create purchase orders
-          based on store demand and inventory requirements.
-        </p>
-
-
-        <div class="form-grid">
-
-          <div class="form-group">
-
-            <label>Supplier Name</label>
-
-            <input type="text" value="ABC Food Distribution">
-
+        <form id="orderForm">
+          <div class="form-grid">
+            <div class="form-group"><label for="supplierName">Supplier Name</label><input id="supplierName" required
+                value="ABC Food Distribution"></div>
+            <div class="form-group"><label for="poNumber">Purchase Order No.</label><input id="poNumber" required
+                value="PO-2026-1048"></div>
+            <div class="form-group"><label for="category">Product Category</label><select id="category">
+                <option>Ready-to-eat Food</option>
+                <option>Beverages</option>
+                <option>Merchandise</option>
+                <option>Household Products</option>
+              </select></div>
+            <div class="form-group"><label for="orderQuantity">Quantity</label><input id="orderQuantity" type="number"
+                min="1" step="1" value="120" required></div>
+            <div class="form-group"><label for="deliveryDate">Expected Delivery</label><input id="deliveryDate"
+                type="date" required></div>
           </div>
+          <button class="primary-button" type="submit">Submit Purchase Order →</button>
+          <p class="feedback" id="orderFeedback" role="status"></p>
+        </form>
+      </article>
 
-
-          <div class="form-group">
-
-            <label>Purchase Order No.</label>
-
-            <input type="text" value="PO-2026-1048">
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Product Category</label>
-
-            <select>
-
-              <option>Ready-to-eat Food</option>
-              <option>Beverages</option>
-              <option>Merchandise</option>
-              <option>Household Products</option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Quantity</label>
-
-            <input type="number" value="120">
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Expected Delivery</label>
-
-            <input type="date" value="2026-10-09">
-
-          </div>
-
-        </div>
-
-
-        <button class="primary-button" onclick="submitOrder()">
-          Submit Purchase Order
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
+      <article class="card">
         <h3>Recent Orders</h3>
-
         <div class="table-container">
-
           <table>
-
             <thead>
-
               <tr>
                 <th>PO No.</th>
                 <th>Supplier</th>
                 <th>Category</th>
+                <th>Quantity</th>
+                <th>Delivery</th>
                 <th>Status</th>
               </tr>
-
             </thead>
-
-            <tbody>
-
+            <tbody id="ordersBody">
               <tr>
                 <td>PO-2026-1048</td>
                 <td>ABC Food Distribution</td>
                 <td>Ready-to-eat Food</td>
-                <td>
-                  <span class="status">
-                    For Approval
-                  </span>
-                </td>
+                <td>120</td>
+                <td>Oct 24, 2026</td>
+                <td><span class="status warning">For approval</span></td>
               </tr>
-
               <tr>
                 <td>PO-2026-1047</td>
                 <td>Metro Beverage Supply</td>
                 <td>Beverages</td>
-                <td>
-                  <span class="status">
-                    Delivered
-                  </span>
-                </td>
+                <td>80</td>
+                <td>Oct 22, 2026</td>
+                <td><span class="status good">Delivered</span></td>
               </tr>
-
             </tbody>
-
           </table>
-
         </div>
-
-      </div>
-
+      </article>
     </section>
 
-
     <!-- PAYMENT TO SUPPLIER -->
-
-    <section id="supplier-payment" class="section">
-
-      <div class="card">
-
+    <section id="supplierPayments" class="section">
+      <article class="card">
+        <p class="eyebrow">EXPENDITURE CYCLE</p>
         <h2>Payment to Supplier</h2>
-
-        <p class="description">
-          The finance module validates supplier invoices,
-          checks payment due dates, and records payments.
-        </p>
-
-
+        <p class="description">Update invoice status after processing a payment in this demonstration.</p>
         <div class="table-container">
-
           <table>
-
             <thead>
-
               <tr>
                 <th>Invoice</th>
                 <th>Supplier</th>
@@ -587,577 +967,473 @@
                 <th>Due Date</th>
                 <th>Action</th>
               </tr>
-
             </thead>
-
-            <tbody>
-
+            <tbody id="invoiceBody">
               <tr>
-
-                <td>
-                  INV-88421
-                </td>
-
-                <td>
-                  ABC Food Distribution
-                </td>
-
-                <td>
-                  ₱84,500
-                </td>
-
-                <td>
-                  October 10, 2026
-                </td>
-
-                <td>
-
-                  <button class="small-button" onclick="processSupplierPayment()">
-                    Process
-                  </button>
-
-                </td>
-
+                <td>INV-88421</td>
+                <td>ABC Food Distribution</td>
+                <td>₱84,500.00</td>
+                <td>October 20, 2026</td>
+                <td><button class="small-button" data-invoice>Mark Processed</button></td>
               </tr>
-
-
               <tr>
-
-                <td>
-                  INV-88412
-                </td>
-
-                <td>
-                  Metro Beverage Supply
-                </td>
-
-                <td>
-                  ₱51,200
-                </td>
-
-                <td>
-                  October 12, 2026
-                </td>
-
-                <td>
-
-                  <button class="small-button" onclick="processSupplierPayment()">
-                    Process
-                  </button>
-
-                </td>
-
+                <td>INV-88412</td>
+                <td>Metro Beverage Supply</td>
+                <td>₱51,200.00</td>
+                <td>October 22, 2026</td>
+                <td><button class="small-button" data-invoice>Mark Processed</button></td>
               </tr>
-
             </tbody>
-
           </table>
-
         </div>
-
-      </div>
-
+        <p class="feedback" id="invoiceFeedback" role="status"></p>
+      </article>
     </section>
 
-
-    <!-- SALES FROM CUSTOMER -->
-
+    <!-- SALES -->
     <section id="sales" class="section">
-
-      <div class="card">
-
+      <article class="card">
+        <p class="eyebrow">REVENUE CYCLE</p>
         <h2>Sales from Customer</h2>
+        <p class="description">Add items to the transaction. Quantities and totals update automatically.</p>
 
-        <p class="description">
-          The POS system records products scanned at checkout
-          and calculates the customer's total purchase.
-        </p>
-
-
-        <div class="form-grid">
-
-          <div class="form-group">
-
-            <label>Barcode / SKU</label>
-
-            <input type="text" value="711-001">
-
+        <form id="itemForm">
+          <div class="form-grid">
+            <div class="form-group"><label for="sku">Barcode / SKU</label><input id="sku" required value="711-001">
+            </div>
+            <div class="form-group"><label for="productName">Product</label><input id="productName" required
+                value="Big Bite Griller"></div>
+            <div class="form-group"><label for="itemQuantity">Quantity</label><input id="itemQuantity" type="number"
+                min="1" step="1" value="2" required></div>
+            <div class="form-group"><label for="unitPrice">Unit Price (₱)</label><input id="unitPrice" type="number"
+                min="0.01" step="0.01" value="42" required></div>
           </div>
-
-
-          <div class="form-group">
-
-            <label>Product</label>
-
-            <input type="text" value="Big Bite Griller">
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Quantity</label>
-
-            <input type="number" value="2">
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>Unit Price</label>
-
-            <input type="text" value="₱42.00">
-
-          </div>
-
-        </div>
-
-
-        <button class="primary-button" onclick="addItem()">
-          Add Item
-        </button>
-
+          <button class="primary-button" type="submit">Add Item +</button>
+          <p class="feedback" id="itemFeedback" role="status"></p>
+        </form>
 
         <div class="table-container">
-
           <table>
-
             <thead>
-
               <tr>
                 <th>SKU</th>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Unit Price</th>
                 <th>Total</th>
+                <th>Action</th>
               </tr>
-
             </thead>
-
-            <tbody>
-
-              <tr>
-                <td>711-001</td>
-                <td>Big Bite Griller</td>
-                <td>2</td>
-                <td>₱42</td>
-                <td>₱84</td>
-              </tr>
-
-              <tr>
-                <td>711-024</td>
-                <td>Slurpee</td>
-                <td>1</td>
-                <td>₱59</td>
-                <td>₱59</td>
-              </tr>
-
-            </tbody>
-
+            <tbody id="cartBody"></tbody>
           </table>
-
         </div>
-
 
         <div class="total-box">
-
-          <strong>
-            Transaction Total
-          </strong>
-
-          <strong>
-            ₱143.00
-          </strong>
-
+          <div><strong style="font-size:13px">TRANSACTION TOTAL</strong><br><small id="cartCount">3 units</small></div>
+          <strong id="transactionTotal">₱143.00</strong>
         </div>
-
-      </div>
-
+      </article>
     </section>
 
-
-    <!-- PAYMENT FROM CUSTOMER -->
-
-    <section id="customer-payment" class="section">
-
-      <div class="card">
-
-        <h2>Payment from Customer</h2>
-
-        <p class="description">
-          The checkout module accepts common retail
-          payment methods and records the payment
-          against the sales transaction.
-        </p>
-
-      </div>
-
-
+    <!-- CUSTOMER PAYMENT -->
+    <section id="payments" class="section">
       <div class="payment-grid">
-
-
-        <!-- CASH -->
-
-        <div class="card">
-
+        <article class="card">
+          <p class="eyebrow">PAYMENT METHOD 01</p>
           <h3>Cash Payment</h3>
-
           <div class="payment-information">
-
-            <p>
-              Amount Due
-            </p>
-
-            <strong>
-              ₱143.00
-            </strong>
-
+            <p>Amount Due</p><strong id="cashDue">₱143.00</strong>
           </div>
-
-
-          <label>
-            Cash Received
-          </label>
-
-          <input id="cashReceived" type="number" value="200" class="full-input">
-
-
+          <div class="form-group"><label for="cashReceived">Cash Received (₱)</label><input id="cashReceived"
+              type="number" min="0" step="0.01" value="200"></div>
           <div class="payment-information">
-
-            <p>
-              Change
-            </p>
-
-            <strong id="changeAmount">
-              ₱57.00
-            </strong>
-
+            <p>Change</p><strong id="changeAmount">₱57.00</strong>
           </div>
+          <button class="primary-button" id="cashButton" type="button">Confirm Cash Payment</button>
+          <p class="feedback" id="cashFeedback" role="status"></p>
+        </article>
 
-
-          <button class="primary-button" onclick="cashPayment()">
-            Confirm Cash Payment
-          </button>
-
-        </div>
-
-
-        <!-- E-WALLET -->
-
-        <div class="card">
-
+        <article class="card">
+          <p class="eyebrow">PAYMENT METHOD 02</p>
           <h3>CLiQQ / E-Wallet</h3>
+          <p class="description">Simulate recording an e-wallet transaction.</p>
+          <div class="form-group"><label for="walletReference">Transaction Reference</label><input id="walletReference"
+              placeholder="Enter demo reference"></div>
+          <br>
+          <button class="primary-button" id="walletButton" type="button">Record Demo Payment</button>
+          <p class="feedback" id="walletFeedback" role="status"></p>
+        </article>
 
-          <p class="description">
-            Scan the customer's payment barcode
-            or validate the digital wallet transaction.
-          </p>
-
-
-          <button class="primary-button" onclick="walletPayment()">
-            Verify Payment
-          </button>
-
-        </div>
-
-
-        <!-- CARD -->
-
-        <div class="card">
-
+        <article class="card">
+          <p class="eyebrow">PAYMENT METHOD 03</p>
           <h3>Card Payment</h3>
-
-          <p class="description">
-            Connect to the authorized payment terminal
-            and capture the approval reference.
-          </p>
-
-
-          <label>
-            Approval Reference
-          </label>
-
-          <input type="text" value="AUTH-71284" class="full-input">
-
-
-          <button class="primary-button" onclick="cardPayment()">
-            Record Card Payment
-          </button>
-
-        </div>
-
+          <p class="description">Record a simulated card approval reference.</p>
+          <div class="form-group"><label for="cardReference">Approval Reference</label><input id="cardReference"
+              value="AUTH-71284"></div>
+          <br>
+          <button class="primary-button" id="cardButton" type="button">Record Demo Payment</button>
+          <p class="feedback" id="cardFeedback" role="status"></p>
+        </article>
       </div>
-
     </section>
-
 
     <!-- INVENTORY -->
-
     <section id="inventory" class="section">
-
-      <div class="card">
-
+      <article class="card">
+        <p class="eyebrow">STOCK CONTROL</p>
         <h2>Inventory Management</h2>
-
-        <p class="description">
-          Inventory records are updated after receiving,
-          sales, returns, and stock adjustments.
-        </p>
-
-
+        <p class="description">Use the adjustment buttons to update stock quantities and statuses.</p>
         <div class="table-container">
-
           <table>
-
             <thead>
-
               <tr>
                 <th>SKU</th>
                 <th>Product</th>
                 <th>On Hand</th>
                 <th>Reorder Level</th>
                 <th>Status</th>
+                <th>Adjust</th>
               </tr>
-
             </thead>
-
-            <tbody>
-
-              <tr>
-
-                <td>
-                  711-001
-                </td>
-
-                <td>
-                  Big Bite Griller
-                </td>
-
-                <td>
-                  48
-                </td>
-
-                <td>
-                  30
-                </td>
-
-                <td>
-                  <span class="stock healthy">
-                    Healthy
-                  </span>
-                </td>
-
-              </tr>
-
-
-              <tr>
-
-                <td>
-                  711-024
-                </td>
-
-                <td>
-                  Slurpee
-                </td>
-
-                <td>
-                  16
-                </td>
-
-                <td>
-                  25
-                </td>
-
-                <td>
-                  <span class="stock reorder">
-                    Reorder
-                  </span>
-                </td>
-
-              </tr>
-
-
-              <tr>
-
-                <td>
-                  711-102
-                </td>
-
-                <td>
-                  Chicken Pastil
-                </td>
-
-                <td>
-                  9
-                </td>
-
-                <td>
-                  20
-                </td>
-
-                <td>
-                  <span class="stock critical">
-                    Critical
-                  </span>
-                </td>
-
-              </tr>
-
-            </tbody>
-
+            <tbody id="inventoryBody"></tbody>
           </table>
-
         </div>
-
-      </div>
-
-
-      <div class="card">
-
+      </article>
+      <article class="card">
         <h3>Inventory Controls</h3>
-
         <ul class="list">
-
-          <li>
-            Barcode-based stock identification
-          </li>
-
-          <li>
-            Automatic stock deduction after completed sales
-          </li>
-
-          <li>
-            Receiving updates after supplier delivery
-          </li>
-
-          <li>
-            Reorder-level alerts
-          </li>
-
-          <li>
-            Central inventory reporting
-          </li>
-
+          <li>Barcode-based stock identification</li>
+          <li>Stock deduction after recorded sales</li>
+          <li>Receiving updates after supplier delivery</li>
+          <li>Reorder-level alerts</li>
+          <li>Central inventory reporting</li>
         </ul>
-
-      </div>
-
+      </article>
     </section>
 
-
-    <!-- WEB DESIGN -->
-
-    <section id="web-design" class="section">
-
+    <!-- SYSTEM OVERVIEW -->
+    <section id="overview" class="section">
       <div class="hero">
-
-        <h2>
-          Website & Information System Design
-        </h2>
-
-        <p>
-          This prototype demonstrates the five required
-          business operations in one centralized
-          information system.
-        </p>
-
+        <div>
+          <p class="eyebrow">SYSTEM ARCHITECTURE</p>
+          <h2>Website & Information System Design</h2>
+          <p>This prototype combines five retail operations into one responsive interface.</p>
+        </div>
       </div>
-
-
       <div class="module-grid">
-
-        <div class="card">
-
-          <h3>
-            Ordering to Supplier
-          </h3>
-
-          <p>
-            Purchase orders, supplier records,
-            approvals, and delivery dates.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>
-            Payment to Supplier
-          </h3>
-
-          <p>
-            Invoice matching, due dates,
-            payment processing, and records.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>
-            Sales from Customer
-          </h3>
-
-          <p>
-            POS cart, SKU scanning,
-            totals, promotions, and loyalty.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>
-            Payment from Customer
-          </h3>
-
-          <p>
-            Cash, card, and digital wallet
-            payment processing.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>
-            Inventory
-          </h3>
-
-          <p>
-            Stock counts, reorder levels,
-            receiving, and sales deductions.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>
-            Security
-          </h3>
-
-          <p>
-            Role-based access, authentication,
-            transaction logs, and secure connections.
-          </p>
-
-        </div>
-
+        <article class="card"><span class="module-index">01</span>
+          <h3>Ordering to Supplier</h3>
+          <p>Purchase orders, suppliers, quantities, and delivery dates.</p>
+        </article>
+        <article class="card"><span class="module-index">02</span>
+          <h3>Payment to Supplier</h3>
+          <p>Invoice review and payment status records.</p>
+        </article>
+        <article class="card"><span class="module-index">03</span>
+          <h3>Sales from Customer</h3>
+          <p>Product entry, cart management, and transaction totals.</p>
+        </article>
+        <article class="card"><span class="module-index">04</span>
+          <h3>Payment from Customer</h3>
+          <p>Cash change calculations and simulated payment records.</p>
+        </article>
+        <article class="card"><span class="module-index">05</span>
+          <h3>Inventory</h3>
+          <p>Stock quantities, reorder levels, and adjustments.</p>
+        </article>
+        <article class="card"><span class="module-index">06</span>
+          <h3>Security</h3>
+          <p>A production version should implement authentication, access control, audit logs, backups, and encrypted
+            connections.</p>
+        </article>
       </div>
-
     </section>
 
+    <footer>
+      <span>Retail Operations Management System</span>
+      <span>Academic prototype · Not connected to actual 7-Eleven systems</span>
+    </footer>
   </main>
 
+  <script>
+    "use strict";
 
-  <script src="script.js"></script>
+    const $ = selector => document.querySelector(selector);
+    const $$ = selector => [...document.querySelectorAll(selector)];
+
+    const money = amount => new Intl.NumberFormat("en-PH", {
+      style: "currency",
+      currency: "PHP",
+      minimumFractionDigits: 2
+    }).format(amount);
+
+    const safe = value => String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    })[char]);
+
+    function feedback(id, message, type = "success") {
+      const element = $("#" + id);
+      element.textContent = message;
+      element.className = "feedback " + type;
+    }
+
+    // NAVIGATION
+    $$(".nav-button").forEach(button => {
+      button.addEventListener("click", () => {
+        $$(".nav-button").forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
+        $$(".section").forEach(section =>
+          section.classList.toggle("active", section.id === button.dataset.section)
+        );
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    $("#homeButton").addEventListener("click", () => {
+      $('[data-section="dashboard"]').click();
+    });
+
+    // PURCHASE ORDERS
+    $("#orderForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      if (!event.currentTarget.reportValidity()) return;
+
+      const supplier = $("#supplierName").value.trim();
+      const po = $("#poNumber").value.trim();
+      const category = $("#category").value;
+      const quantity = Number($("#orderQuantity").value);
+      const delivery = $("#deliveryDate").value;
+
+      if (!supplier || !po || !Number.isInteger(quantity) ||
+        quantity < 1 || !delivery) {
+        feedback("orderFeedback", "Please check all required fields.", "error");
+        return;
+      }
+
+      const duplicate = $$("#ordersBody tr").some(row =>
+        row.cells[0].textContent.trim().toLowerCase() === po.toLowerCase()
+      );
+
+      if (duplicate) {
+        feedback("orderFeedback", "That purchase order number already exists.", "error");
+        return;
+      }
+
+      const date = new Date(delivery + "T12:00:00").toLocaleDateString(
+        "en-US", { month: "short", day: "numeric", year: "numeric" }
+      );
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+    <td>${safe(po)}</td>
+    <td>${safe(supplier)}</td>
+    <td>${safe(category)}</td>
+    <td>${quantity}</td>
+    <td>${date}</td>
+    <td><span class="status warning">For approval</span></td>
+  `;
+
+      $("#ordersBody").prepend(row);
+      $("#pendingKpi").textContent = Number($("#pendingKpi").textContent) + 1;
+
+      feedback("orderFeedback", "Purchase order added to Recent Orders.");
+    });
+
+    // SUPPLIER INVOICES
+    $$("[data-invoice]").forEach(button => {
+      button.addEventListener("click", () => {
+        button.parentElement.innerHTML =
+          '<span class="status good">Marked processed</span>';
+        feedback("invoiceFeedback",
+          "Invoice status updated in this browser demonstration.");
+      });
+    });
+
+    // SALES CART
+    let cart = [
+      { sku: "711-001", name: "Big Bite Griller", quantity: 2, price: 42 },
+      { sku: "711-024", name: "Slurpee", quantity: 1, price: 59 }
+    ];
+
+    function cartTotal() {
+      return cart.reduce((sum, item) => sum + item.quantity * item.price, 0);
+    }
+
+    function renderCart() {
+      $("#cartBody").innerHTML = cart.map((item, index) => `
+    <tr>
+      <td>${safe(item.sku)}</td>
+      <td>${safe(item.name)}</td>
+      <td>${item.quantity}</td>
+      <td>${money(item.price)}</td>
+      <td>${money(item.quantity * item.price)}</td>
+      <td><button class="small-button secondary-button"
+        type="button" data-remove="${index}">Remove</button></td>
+    </tr>
+  `).join("");
+
+      $("#transactionTotal").textContent = money(cartTotal());
+      $("#cashDue").textContent = money(cartTotal());
+
+      const units = cart.reduce((sum, item) => sum + item.quantity, 0);
+      $("#cartCount").textContent = `${units} units · ${cart.length} product lines`;
+
+      $$("[data-remove]").forEach(button => {
+        button.addEventListener("click", () => {
+          cart.splice(Number(button.dataset.remove), 1);
+          renderCart();
+        });
+      });
+
+      updateChange();
+    }
+
+    $("#itemForm").addEventListener("submit", event => {
+      event.preventDefault();
+      if (!event.currentTarget.reportValidity()) return;
+
+      const sku = $("#sku").value.trim();
+      const name = $("#productName").value.trim();
+      const quantity = Number($("#itemQuantity").value);
+      const price = Number($("#unitPrice").value);
+
+      if (!sku || !name || !Number.isInteger(quantity) ||
+        quantity < 1 || !Number.isFinite(price) || price <= 0) {
+        feedback("itemFeedback", "Enter a valid product, quantity, and price.", "error");
+        return;
+      }
+
+      const existing = cart.find(item =>
+        item.sku.toLowerCase() === sku.toLowerCase()
+      );
+
+      if (existing) {
+        existing.quantity += quantity;
+        existing.price = price;
+      } else {
+        cart.push({ sku, name, quantity, price });
+      }
+
+      renderCart();
+      feedback("itemFeedback", "Item successfully added to the transaction.");
+    });
+
+    // INVENTORY
+    let inventory = [
+      { sku: "711-001", name: "Big Bite Griller", onHand: 48, reorder: 30 },
+      { sku: "711-024", name: "Slurpee", onHand: 16, reorder: 25 },
+      { sku: "711-102", name: "Chicken Pastil", onHand: 9, reorder: 20 }
+    ];
+
+    function renderInventory() {
+      $("#inventoryBody").innerHTML = inventory.map((item, index) => {
+        let status, className;
+
+        if (item.onHand <= item.reorder * 0.5) {
+          status = "Critical";
+          className = "danger";
+        } else if (item.onHand <= item.reorder) {
+          status = "Reorder";
+          className = "warning";
+        } else {
+          status = "Healthy";
+          className = "good";
+        }
+
+        return `
+      <tr>
+        <td>${item.sku}</td>
+        <td>${safe(item.name)}</td>
+        <td>${item.onHand}</td>
+        <td>${item.reorder}</td>
+        <td><span class="status ${className}">${status}</span></td>
+        <td><div class="stock-actions">
+          <button class="small-button" data-stock="${index}" data-change="-1"
+            type="button" aria-label="Decrease stock">−</button>
+          <button class="small-button" data-stock="${index}" data-change="1"
+            type="button" aria-label="Increase stock">+</button>
+        </div></td>
+      </tr>
+    `;
+      }).join("");
+
+      $("#lowStockKpi").textContent =
+        inventory.filter(item => item.onHand <= item.reorder).length;
+
+      $$("[data-stock]").forEach(button => {
+        button.addEventListener("click", () => {
+          const item = inventory[Number(button.dataset.stock)];
+          item.onHand = Math.max(0, item.onHand + Number(button.dataset.change));
+          renderInventory();
+        });
+      });
+    }
+
+    // CASH PAYMENT
+    function updateChange() {
+      const input = $("#cashReceived");
+      const received = Number(input.value);
+      const due = cartTotal();
+      const change = received - due;
+
+      $("#changeAmount").textContent = money(Math.max(0, change));
+      $("#changeAmount").style.color =
+        input.value.trim() !== "" && received < due ? "#b42332" : "";
+    }
+
+    $("#cashReceived").addEventListener("input", updateChange);
+
+    $("#cashButton").addEventListener("click", () => {
+      const input = $("#cashReceived");
+      const received = Number(input.value);
+      const due = cartTotal();
+
+      if (input.value.trim() === "" || !Number.isFinite(received) ||
+        received < due) {
+        feedback("cashFeedback",
+          "Enter an amount equal to or greater than the amount due.", "error");
+        return;
+      }
+
+      feedback("cashFeedback",
+        `Demo cash payment recorded. Change: ${money(received - due)}.`);
+    });
+
+    // SIMULATED WALLET AND CARD PAYMENTS
+    function recordDemoPayment(inputSelector, feedbackId, method) {
+      const reference = $(inputSelector).value.trim();
+
+      if (!reference) {
+        feedback(feedbackId, "Please enter a transaction reference.", "error");
+        $(inputSelector).focus();
+        return;
+      }
+
+      feedback(feedbackId,
+        `${method} demo payment recorded with reference ${reference}. No actual payment was processed.`);
+    }
+
+    $("#walletButton").addEventListener("click", () =>
+      recordDemoPayment("#walletReference", "walletFeedback", "E-wallet")
+    );
+
+    $("#cardButton").addEventListener("click", () =>
+      recordDemoPayment("#cardReference", "cardFeedback", "Card")
+    );
+
+    // SET A DEFAULT DELIVERY DATE ONE WEEK FROM TODAY
+    const future = new Date();
+    future.setDate(future.getDate() + 7);
+    $("#deliveryDate").value =
+      `${future.getFullYear()}-${String(future.getMonth() + 1).padStart(2, "0")}-${String(future.getDate()).padStart(2, "0")}`;
+
+    // INITIAL RENDER
+    renderCart();
+    renderInventory();
+  </script>
 
 </body>
 
