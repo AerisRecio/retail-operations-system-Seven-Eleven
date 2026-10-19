@@ -36,12 +36,62 @@ function showSection(sectionId, button) {
 
 /* ORDERING TO SUPPLIER */
 
-function submitOrder() {
+let supplierOrders = [];
 
-  alert(
-    "Purchase order submitted successfully for approval."
-  );
+function submitOrder(event) {
+  if (event) event.preventDefault();
 
+  const supplier = document.getElementById("supplierName").value.trim();
+  const product = document.getElementById("orderProduct").value.trim();
+  const quantity = Number(document.getElementById("orderQuantity").value);
+  const price = Number(document.getElementById("orderPrice").value);
+
+  if (!supplier || !product || quantity < 1 || price <= 0) {
+    alert("Please enter valid order details.");
+    return;
+  }
+
+  const order = {
+    id: Date.now(),
+    supplier: supplier,
+    product: product,
+    quantity: quantity,
+    price: price,
+    total: quantity * price,
+    status: "Pending"
+  };
+
+  supplierOrders.push(order);
+
+  displaySupplierOrders();
+  alert("Order placed successfully!");
+}
+
+function displaySupplierOrders() {
+  const paymentBody = document.getElementById("supplierPaymentBody");
+
+  if (!paymentBody) return;
+
+  paymentBody.innerHTML = "";
+
+  supplierOrders.forEach(function (order) {
+    const row = document.createElement("tr");
+
+    [
+      order.id,
+      order.supplier,
+      order.product,
+      order.quantity,
+      "₱" + order.total.toFixed(2),
+      order.status
+    ].forEach(function (value) {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+
+    paymentBody.appendChild(row);
+  });
 }
 
 
@@ -58,12 +108,64 @@ function processSupplierPayment() {
 
 /* SALES */
 
-function addItem() {
+function addItem(event) {
+  if (event) event.preventDefault();
 
-  alert(
-    "Item successfully added to the customer transaction."
-  );
+  const sku = document.getElementById("sku").value.trim();
+  const productName = document.getElementById("productName").value.trim();
+  const quantity = parseInt(document.getElementById("itemQuantity").value, 10);
+  const unitPrice = parseFloat(document.getElementById("unitPrice").value);
 
+  const feedback = document.getElementById("itemFeedback");
+
+  if (!sku || !productName || quantity < 1 || unitPrice <= 0 ||
+    !Number.isFinite(quantity) || !Number.isFinite(unitPrice)) {
+    feedback.textContent = "Please enter valid product details.";
+    return;
+  }
+
+  const cartBody = document.getElementById("cartBody");
+
+  const row = document.createElement("tr");
+  const total = quantity * unitPrice;
+
+  row.innerHTML = `
+    <td>${sku}</td>
+    <td>${productName}</td>
+    <td>${quantity}</td>
+    <td>₱${unitPrice.toFixed(2)}</td>
+    <td>₱${total.toFixed(2)}</td>
+    <td><button type="button" class="small-button remove-item">Remove</button></td>
+  `;
+
+  row.querySelector(".remove-item").addEventListener("click", function () {
+    row.remove();
+    updateTransactionTotal();
+  });
+
+  cartBody.appendChild(row);
+  updateTransactionTotal();
+
+  feedback.textContent = "Item added successfully.";
+  function updateTransactionTotal() {
+    const rows = document.querySelectorAll("#cartBody tr");
+    let total = 0;
+    let units = 0;
+
+    rows.forEach(function (row) {
+      const quantity = Number(row.cells[2].textContent);
+      const price = Number(row.cells[3].textContent.replace("₱", ""));
+
+      total += quantity * price;
+      units += quantity;
+    });
+
+    document.getElementById("transactionTotal").textContent =
+      "₱" + total.toFixed(2);
+
+    document.getElementById("cartCount").textContent =
+      units + (units === 1 ? " unit" : " units");
+  }
 }
 
 
@@ -133,5 +235,6 @@ function cardPayment() {
   alert(
     "Card payment recorded successfully."
   );
-
+  document.getElementById("itemForm").addEventListener("submit", addItem);
+  document.getElementById("orderForm").addEventListener("submit", submitOrder);
 }
